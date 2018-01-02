@@ -5,4 +5,3 @@ window.onload = function () {
     square.init();
     square.render();
 };
-//# sourceMappingURL=app.js.map

@@ -43,23 +43,25 @@ class Squad {
     }
 
     init() {
+
         this.gl = this.canvas.getContext("experimental-webgl");
-        var vertex_buffer = this.gl.createBuffer();
+        
+        let vertex_buffer = this.gl.createBuffer();
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, vertex_buffer);
         this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(this.vertices), this.gl.STATIC_DRAW);
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, null);
 
-        var index_Buffer = this.gl.createBuffer();
+        let index_Buffer = this.gl.createBuffer();
         this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, index_Buffer);
         this.gl.bufferData(this.gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(this.indices), this.gl.STATIC_DRAW);
         this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, null);
 
-        var textcoord_buffer = this.gl.createBuffer();
+        let textcoord_buffer = this.gl.createBuffer();
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, textcoord_buffer);
         this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(this.texCoords), this.gl.STATIC_DRAW);
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, null);
 
-        var vertCode = 'attribute vec3 position;' +
+        let vertCode = 'attribute vec3 position;' +
             'attribute vec2 vertTexCoord;' +
             'varying vec2 fragTexCoord;' +
             'uniform mat4 pMatrix;' +
@@ -70,34 +72,34 @@ class Squad {
             '  fragTexCoord = vertTexCoord;' +
             '} ';
 
-        var vertShader = this.gl.createShader(this.gl.VERTEX_SHADER);
+        let vertShader = this.gl.createShader(this.gl.VERTEX_SHADER);
         this.gl.shaderSource(vertShader, vertCode);
         this.gl.compileShader(vertShader);
 
-        var fragCode = 'precision mediump float;' +
+        let fragCode = 'precision mediump float;' +
             'varying vec2 fragTexCoord;' +
             'uniform sampler2D sampler;' +
             'void main(void) {' +
             ' gl_FragColor = texture2D(sampler, fragTexCoord);' +
             ' } ';
 
-        var fragShader = this.gl.createShader(this.gl.FRAGMENT_SHADER);
+        let fragShader = this.gl.createShader(this.gl.FRAGMENT_SHADER);
         this.gl.shaderSource(fragShader, fragCode);
         this.gl.compileShader(fragShader);
 
-        var program = this.gl.createProgram();
+        let program = this.gl.createProgram();
         this.gl.attachShader(program, vertShader);
         this.gl.attachShader(program, fragShader);
         this.gl.linkProgram(program);
 
         this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, index_Buffer);
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, vertex_buffer);
-        var coord = this.gl.getAttribLocation(program, "position");
+        let coord = this.gl.getAttribLocation(program, "position");
         this.gl.vertexAttribPointer(coord, 3, this.gl.FLOAT, false, 0, 0);
         this.gl.enableVertexAttribArray(coord);
 
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, textcoord_buffer);
-        var texCoordAttribLocation = this.gl.getAttribLocation(program, 'vertTexCoord');
+        let texCoordAttribLocation = this.gl.getAttribLocation(program, 'vertTexCoord');
         this.gl.vertexAttribPointer(texCoordAttribLocation, 3, this.gl.FLOAT, false, 0, 0);
         this.gl.enableVertexAttribArray(texCoordAttribLocation);
 
@@ -130,7 +132,7 @@ class Squad {
     }
   
     render = () => {   
-        var dt = this.time - this.currentTime;
+        let dt = this.time - this.currentTime;
         this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);    
         this.update(dt);
         this.currentTime = this.time;

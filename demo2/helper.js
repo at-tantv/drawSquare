@@ -1,4 +1,4 @@
-var Helper = /** @class */ (function () {
+var Helper = (function () {
     function Helper() {
     }
     Helper.loadTexture = function (gl, url) {
@@ -12,7 +12,7 @@ var Helper = /** @class */ (function () {
         var border = 0;
         var srcFormat = gl.RGBA;
         var srcType = gl.UNSIGNED_BYTE;
-        var pixel = new Uint8Array([0, 0, 255, 255]); // opaque blue
+        var pixel = new Uint8Array([0, 0, 255, 255]);
         gl.texImage2D(gl.TEXTURE_2D, level, internalFormat, width, height, border, srcFormat, srcType, pixel);
         var image = new Image();
         image.crossOrigin = "";
@@ -36,4 +36,3 @@ var Helper = /** @class */ (function () {
     };
     return Helper;
 }());
-//# sourceMappingURL=helper.js.map

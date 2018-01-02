@@ -7,7 +7,7 @@
     }
 
     getProjection(angle, a, zMin, zMax) {
-        var ang = Math.tan((angle * .5) * Math.PI / 180);
+        let ang = Math.tan((angle * .5) * Math.PI / 180);
         return [
             0.5 / ang, 0, 0, 0,
             0, 0.5 * a / ang, 0, 0,
@@ -17,9 +17,9 @@
     }
 
     rotateZ(m, angle) {
-        var c = Math.cos(angle);
-        var s = Math.sin(angle);
-        var mv0 = m[0], mv4 = m[4], mv8 = m[8];
+        let c = Math.cos(angle);
+        let s = Math.sin(angle);
+        let mv0 = m[0], mv4 = m[4], mv8 = m[8];
 
         m[0] = c * m[0] - s * m[1];
         m[4] = c * m[4] - s * m[5];
@@ -31,9 +31,9 @@
     }
 
     rotateX(m, angle) {
-        var c = Math.cos(angle);
-        var s = Math.sin(angle);
-        var mv1 = m[1], mv5 = m[5], mv9 = m[9];
+        let c = Math.cos(angle);
+        let s = Math.sin(angle);
+        let mv1 = m[1], mv5 = m[5], mv9 = m[9];
 
         m[1] = m[1] * c - m[2] * s;
         m[5] = m[5] * c - m[6] * s;
@@ -45,9 +45,9 @@
     }
 
     rotateY(m, angle) {
-        var c = Math.cos(angle);
-        var s = Math.sin(angle);
-        var mv0 = m[0], mv4 = m[4], mv8 = m[8];
+        let c = Math.cos(angle);
+        let s = Math.sin(angle);
+        let mv0 = m[0], mv4 = m[4], mv8 = m[8];
 
         m[0] = c * m[0] + s * m[2];
         m[4] = c * m[4] + s * m[6];

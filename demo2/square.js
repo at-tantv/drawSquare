@@ -1,4 +1,4 @@
-var Squad = /** @class */ (function () {
+var Squad = (function () {
     function Squad(canvas) {
         var _this = this;
         this.canvas = null;
@@ -120,4 +120,3 @@ var Squad = /** @class */ (function () {
     };
     return Squad;
 }());
-//# sourceMappingURL=square.js.map

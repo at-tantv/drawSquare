@@ -1,4 +1,4 @@
-var Matrix = /** @class */ (function () {
+var Matrix = (function () {
     function Matrix() {
         this.mov_matrix = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
         this.view_matrix = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, -5, 1];
@@ -50,4 +50,3 @@ var Matrix = /** @class */ (function () {
     };
     return Matrix;
 }());
-//# sourceMappingURL=matrix.js.map
