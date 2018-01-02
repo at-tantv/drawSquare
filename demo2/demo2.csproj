@@ -28,8 +28,9 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app.ts" />
-    <TypeScriptCompile Include="squad.ts" />
-    <TypeScriptCompile Include="triangle.ts" />
+    <TypeScriptCompile Include="helper.ts" />
+    <TypeScriptCompile Include="square.ts" />
+    <TypeScriptCompile Include="matrix.ts" />
   </ItemGroup>
   <ItemGroup>
     <None Include="web.Debug.config">
