@@ -1,11 +1,9 @@
 ﻿class Matrix {
 
-    mov_matrix = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
-    view_matrix = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
-    proj_matrix: any = null;
-
+    mov_matrix  = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
+    view_matrix = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, -5, 1];
     getProMatrix(canvas) {
-        this.proj_matrix = this.getProjection(40, canvas.width / canvas.height, 1, 100);
+        return this.getProjection(40, canvas.width / canvas.height, 1, 100);
     }
 
     getProjection(angle, a, zMin, zMax) {

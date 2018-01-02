@@ -1,11 +1,10 @@
 var Matrix = /** @class */ (function () {
     function Matrix() {
         this.mov_matrix = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
-        this.view_matrix = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
-        this.proj_matrix = null;
+        this.view_matrix = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, -5, 1];
     }
     Matrix.prototype.getProMatrix = function (canvas) {
-        this.proj_matrix = this.getProjection(40, canvas.width / canvas.height, 1, 100);
+        return this.getProjection(40, canvas.width / canvas.height, 1, 100);
     };
     Matrix.prototype.getProjection = function (angle, a, zMin, zMax) {
         var ang = Math.tan((angle * .5) * Math.PI / 180);

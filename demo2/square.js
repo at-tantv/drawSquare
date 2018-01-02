@@ -8,6 +8,7 @@ var Squad = /** @class */ (function () {
         this.vMatrix = null;
         this.mMatrix = null;
         this.matrix = null;
+        this.proj_matrix = null;
         this.time = 0;
         this.currentTime = 0;
         this.vertices = [
@@ -61,11 +62,11 @@ var Squad = /** @class */ (function () {
         var vertCode = 'attribute vec3 position;' +
             'attribute vec2 vertTexCoord;' +
             'varying vec2 fragTexCoord;' +
-            'uniform mat4 Pmatrix;' +
-            'uniform mat4 Vmatrix;' +
-            'uniform mat4 Mmatrix;' +
+            'uniform mat4 pMatrix;' +
+            'uniform mat4 vMatrix;' +
+            'uniform mat4 mMatrix;' +
             'void main(void) { ' +
-            '  gl_Position = Pmatrix*Vmatrix*Mmatrix*vec4(position, 1.);' +
+            '  gl_Position = pMatrix*vMatrix*mMatrix*vec4(position, 1.);' +
             '  fragTexCoord = vertTexCoord;' +
             '} ';
         var vertShader = this.gl.createShader(this.gl.VERTEX_SHADER);
@@ -95,11 +96,11 @@ var Squad = /** @class */ (function () {
         this.gl.enableVertexAttribArray(texCoordAttribLocation);
         this.gl.useProgram(program);
         this.texture = Helper.loadTexture(this.gl, "https://c1.staticflickr.com/5/4641/25459647538_b2521aa242.jpg");
-        this.pMatrix = this.gl.getUniformLocation(program, "Pmatrix");
-        this.vMatrix = this.gl.getUniformLocation(program, "Vmatrix");
-        this.mMatrix = this.gl.getUniformLocation(program, "Mmatrix");
+        this.pMatrix = this.gl.getUniformLocation(program, "pMatrix");
+        this.vMatrix = this.gl.getUniformLocation(program, "vMatrix");
+        this.mMatrix = this.gl.getUniformLocation(program, "mMatrix");
         this.matrix = new Matrix();
-        this.matrix.getProMatrix(this.canvas);
+        this.proj_matrix = this.matrix.getProMatrix(this.canvas);
         this.gl.enable(this.gl.DEPTH_TEST);
         this.gl.depthFunc(this.gl.LEQUAL);
         this.gl.clearColor(0.5, 0.5, 0.5, 0.9);
@@ -107,10 +108,10 @@ var Squad = /** @class */ (function () {
         this.gl.viewport(0.0, 0.0, this.canvas.width, this.canvas.height);
     };
     Squad.prototype.update = function (dt) {
-        this.matrix.rotateZ(this.matrix.mov_matrix, dt * 0.5);
-        this.matrix.rotateY(this.matrix.mov_matrix, dt * 0.2);
-        this.matrix.rotateX(this.matrix.mov_matrix, dt * 0.3);
-        this.gl.uniformMatrix4fv(this.pMatrix, false, this.matrix.proj_matrix);
+        this.matrix.rotateZ(this.matrix.mov_matrix, dt * 0.7);
+        this.matrix.rotateY(this.matrix.mov_matrix, dt * 0.5);
+        this.matrix.rotateX(this.matrix.mov_matrix, dt * 0.9);
+        this.gl.uniformMatrix4fv(this.pMatrix, false, this.proj_matrix);
         this.gl.uniformMatrix4fv(this.vMatrix, false, this.matrix.view_matrix);
         this.gl.uniformMatrix4fv(this.mMatrix, false, this.matrix.mov_matrix);
         this.gl.bindTexture(this.gl.TEXTURE_2D, this.texture);

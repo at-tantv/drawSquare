@@ -7,27 +7,26 @@ class Squad {
     vMatrix: any = null;
     mMatrix: any = null;
     matrix: any = null;
+    proj_matrix: any = null;
     time = 0;
     currentTime = 0;
 
     vertices = [
-        -1, -1, -1, 1, -1, -1, 1, 1, -1, -1, 1, -1,
-        -1, -1, 1, 1, -1, 1, 1, 1, 1, -1, 1, 1,
-        -1, -1, -1, -1, 1, -1, -1, 1, 1, -1, -1, 1,
-        1, -1, -1, 1, 1, -1, 1, 1, 1, 1, -1, 1,
-        -1, -1, -1, -1, -1, 1, 1, -1, 1, 1, -1, -1,
-        -1, 1, -1, -1, 1, 1, 1, 1, 1, 1, 1, -1,
-  
+        -1, -1, -1,  1, -1, -1,  1,  1, -1, -1,  1, -1,
+        -1, -1,  1,  1, -1,  1,  1,  1,  1, -1,  1,  1,
+        -1, -1, -1, -1,  1, -1, -1,  1,  1, -1, -1,  1,
+         1, -1, -1,  1,  1, -1,  1,  1,  1,  1, -1,  1,
+        -1, -1, -1, -1, -1,  1,  1, -1,  1,  1, -1, -1,
+        -1,  1, -1, -1,  1,  1,  1,  1,  1,  1,  1, -1,
     ];
 
     indices = [
-        0, 1, 2, 0, 2, 3,
-        4, 5, 6, 4, 6, 7,
-        8, 9, 10, 8, 10, 11,
-        12, 13, 14, 12, 14, 15,
-        16, 17, 18, 16, 18, 19,
-        20, 21, 22, 20, 22, 23,
-    
+        0,  1,  2,   0,  2,  3,
+        4,  5,  6,   4,  6,  7,
+        8,  9,  10,  8,  10, 11,
+        12, 13, 14,  12, 14, 15,
+        16, 17, 18,  16, 18, 19,
+        20, 21, 22,  20, 22, 23,
     ];
 
     texCoords = [
@@ -37,7 +36,6 @@ class Squad {
         0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0,
         0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0,
         0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0,
-     
     ];
  
     constructor(canvas) {
@@ -45,7 +43,6 @@ class Squad {
     }
 
     init() {
-
         this.gl = this.canvas.getContext("experimental-webgl");
         var vertex_buffer = this.gl.createBuffer();
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, vertex_buffer);
@@ -65,11 +62,11 @@ class Squad {
         var vertCode = 'attribute vec3 position;' +
             'attribute vec2 vertTexCoord;' +
             'varying vec2 fragTexCoord;' +
-            'uniform mat4 Pmatrix;' +
-            'uniform mat4 Vmatrix;' +
-            'uniform mat4 Mmatrix;' +
+            'uniform mat4 pMatrix;' +
+            'uniform mat4 vMatrix;' +
+            'uniform mat4 mMatrix;' +
             'void main(void) { ' +
-            '  gl_Position = Pmatrix*Vmatrix*Mmatrix*vec4(position, 1.);' +
+            '  gl_Position = pMatrix*vMatrix*mMatrix*vec4(position, 1.);' +
             '  fragTexCoord = vertTexCoord;' +
             '} ';
 
@@ -99,22 +96,19 @@ class Squad {
         this.gl.vertexAttribPointer(coord, 3, this.gl.FLOAT, false, 0, 0);
         this.gl.enableVertexAttribArray(coord);
 
-
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, textcoord_buffer);
         var texCoordAttribLocation = this.gl.getAttribLocation(program, 'vertTexCoord');
         this.gl.vertexAttribPointer(texCoordAttribLocation, 3, this.gl.FLOAT, false, 0, 0);
         this.gl.enableVertexAttribArray(texCoordAttribLocation);
 
         this.gl.useProgram(program);
-
         this.texture = Helper.loadTexture(this.gl, "https://c1.staticflickr.com/5/4641/25459647538_b2521aa242.jpg");
 
-        this.pMatrix = this.gl.getUniformLocation(program, "Pmatrix");
-        this.vMatrix = this.gl.getUniformLocation(program, "Vmatrix");
-        this.mMatrix = this.gl.getUniformLocation(program, "Mmatrix");
+        this.pMatrix = this.gl.getUniformLocation(program, "pMatrix");
+        this.vMatrix = this.gl.getUniformLocation(program, "vMatrix");
+        this.mMatrix = this.gl.getUniformLocation(program, "mMatrix");
         this.matrix = new Matrix();
-        this.matrix.getProMatrix(this.canvas);
-
+        this.proj_matrix = this.matrix.getProMatrix(this.canvas);
 
         this.gl.enable(this.gl.DEPTH_TEST);
         this.gl.depthFunc(this.gl.LEQUAL);
@@ -124,10 +118,10 @@ class Squad {
     }
 
     update(dt) {
-        this.matrix.rotateZ(this.matrix.mov_matrix, dt * 0.5);
-        this.matrix.rotateY(this.matrix.mov_matrix, dt * 0.2);
-        this.matrix.rotateX(this.matrix.mov_matrix, dt * 0.3);
-        this.gl.uniformMatrix4fv(this.pMatrix, false, this.matrix.proj_matrix);
+        this.matrix.rotateZ(this.matrix.mov_matrix, dt * 0.7);
+        this.matrix.rotateY(this.matrix.mov_matrix, dt * 0.5);
+        this.matrix.rotateX(this.matrix.mov_matrix, dt * 0.9);
+        this.gl.uniformMatrix4fv(this.pMatrix, false, this.proj_matrix);
         this.gl.uniformMatrix4fv(this.vMatrix, false, this.matrix.view_matrix);
         this.gl.uniformMatrix4fv(this.mMatrix, false, this.matrix.mov_matrix);
         this.gl.bindTexture(this.gl.TEXTURE_2D, this.texture);
@@ -143,7 +137,5 @@ class Squad {
         this.time += 0.01;
         window.requestAnimationFrame(this.render);
     }
-
-
     
 }
