@@ -1,0 +1,6 @@
+C:\Project\TypeScript\CameraDemo\CameraDemo\bin\CameraDemo.dll.config
+C:\Project\TypeScript\CameraDemo\CameraDemo\bin\CameraDemo.dll
+C:\Project\TypeScript\CameraDemo\CameraDemo\bin\CameraDemo.pdb
+C:\Project\TypeScript\CameraDemo\CameraDemo\obj\Debug\CameraDemo.dll
+C:\Project\TypeScript\CameraDemo\CameraDemo\obj\Debug\CameraDemo.pdb
+C:\Project\TypeScript\CameraDemo\CameraDemo\obj\Debug\CameraDemo.csprojResolveAssemblyReference.cache
