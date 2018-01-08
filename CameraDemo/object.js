@@ -1,33 +1,34 @@
 var Object3D = /** @class */ (function () {
-    function Object3D(model, shader, texture, canvas) {
+    function Object3D(model, shader, texture, canvas, gl) {
         this.model = null;
         this.shader = null;
         this.texture = null;
         this.position = null;
         this.scale = 1;
-        this.rotationX = 40;
-        this.rotationY = 40;
-        this.rotationZ = 40;
+        this.rotationX = 45;
+        this.rotationY = 0;
+        this.rotationZ = 0;
+        this.gl = null;
         this.canvas = null;
         this.model = model;
         this.shader = shader;
         this.texture = texture;
         this.canvas = canvas;
+        this.gl = gl;
     }
     Object3D.prototype.init = function () {
         this.position = new Vector3(0, 0, 0);
     };
     Object3D.prototype.render = function (camera) {
-        var gl = this.canvas.getContext('experimental-webgl');
         //Tinh World Matrix
-        gl.uniformMatrix4fv(this.shader.MmatrixAddress, false, this.getWorldMatrix().buffer());
+        this.gl.uniformMatrix4fv(this.shader.MmatrixAddress, false, this.getWorldMatrix().buffer());
         //View Matrix Camera
         var viewMatrix = camera.getWorldMatrix().inverse();
-        gl.uniformMatrix4fv(this.shader.VmatrixAddress, false, viewMatrix.buffer());
+        this.gl.uniformMatrix4fv(this.shader.VmatrixAddress, false, viewMatrix.buffer());
         //Ve Hinh
-        gl.bindTexture(gl.TEXTURE_2D, this.texture.texture);
-        gl.activeTexture(gl.TEXTURE0);
-        gl.drawElements(gl.TRIANGLES, this.model.indices.length, gl.UNSIGNED_SHORT, 0);
+        this.gl.bindTexture(this.gl.TEXTURE_2D, this.texture.texture);
+        this.gl.activeTexture(this.gl.TEXTURE0);
+        this.gl.drawArrays(this.gl.TRIANGLES, 0, this.model.vertices.length / 3);
     };
     Object3D.prototype.setScale = function (scale) {
         this.scale = scale;
@@ -47,6 +48,9 @@ var Object3D = /** @class */ (function () {
         this.position.z = vec3.z;
     };
     Object3D.prototype.getWorldMatrix = function () {
+        this.rotationZ += 0.5;
+        this.rotationX += 0.2;
+        this.rotationY += 0.1;
         var scaleMatrix = Matrix4.scale(this.scale);
         var rotateMatrix = Matrix4.rotateZ(this.rotationZ).concat(Matrix4.rotateX(this.rotationX)).concat(Matrix4.rotateY(this.rotationY));
         var translateMatrix = Matrix4.translate(this.position.x, this.position.y, this.position.z);

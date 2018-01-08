@@ -1,13 +1,14 @@
 var Texture = /** @class */ (function () {
-    function Texture(canvas) {
+    function Texture(canvas, gl) {
         this.canvas = null;
         this.texture = null;
-        this.url = "https://c1.staticflickr.com/5/4641/25459647538_b2521aa242.jpg";
+        this.url = "/data/vn_bank/NganHangNhaNuocVietNam.png";
+        this.gl = null;
         this.canvas = canvas;
+        this.gl = gl;
     }
     Texture.prototype.init = function () {
-        var gl = this.canvas.getContext('experimental-webgl');
-        this.texture = this.loadTexture(gl, this.url);
+        this.texture = this.loadTexture(this.gl, this.url);
     };
     Texture.prototype.loadTexture = function (gl, url) {
         var _this = this;
@@ -25,6 +26,7 @@ var Texture = /** @class */ (function () {
         var image = new Image();
         image.crossOrigin = "";
         image.onload = function () {
+            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
             gl.bindTexture(gl.TEXTURE_2D, texture);
             gl.texImage2D(gl.TEXTURE_2D, level, internalFormat, srcFormat, srcType, image);
             if (_this.isPowerOf2(image.width) && _this.isPowerOf2(image.height)) {

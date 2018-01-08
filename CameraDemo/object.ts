@@ -6,17 +6,18 @@ class Object3D {
 
     position: Vector3 = null;
     scale = 1;
-    rotationX = 40;
-    rotationY = 40;
-    rotationZ = 40;
-
+    rotationX = 45;
+    rotationY = 0;
+    rotationZ = 0;
+    gl: any = null;
     canvas: any = null;
 
-    constructor(model, shader, texture, canvas) {
+    constructor(model, shader, texture, canvas, gl) {
         this.model = model;
         this.shader = shader;
         this.texture = texture;
         this.canvas = canvas;
+        this.gl = gl;
     }
 
     init() {
@@ -25,18 +26,16 @@ class Object3D {
 
 
     render(camera) {
-        var gl = this.canvas.getContext('experimental-webgl');
         //Tinh World Matrix
-        gl.uniformMatrix4fv(this.shader.MmatrixAddress, false, this.getWorldMatrix().buffer());
+        this.gl.uniformMatrix4fv(this.shader.MmatrixAddress, false, this.getWorldMatrix().buffer());
         //View Matrix Camera
         var viewMatrix = camera.getWorldMatrix().inverse();
-        gl.uniformMatrix4fv(this.shader.VmatrixAddress, false, viewMatrix.buffer());
+        this.gl.uniformMatrix4fv(this.shader.VmatrixAddress, false, viewMatrix.buffer());
         //Ve Hinh
-        gl.bindTexture(gl.TEXTURE_2D, this.texture.texture);
-        gl.activeTexture(gl.TEXTURE0);
-        gl.drawElements(gl.TRIANGLES, this.model.indices.length, gl.UNSIGNED_SHORT, 0);
+        this.gl.bindTexture(this.gl.TEXTURE_2D, this.texture.texture);
+        this.gl.activeTexture(this.gl.TEXTURE0);
+        this.gl.drawArrays(this.gl.TRIANGLES, 0, this.model.vertices.length / 3);
     }
-
 
     setScale(scale) {
         this.scale = scale;
@@ -60,7 +59,10 @@ class Object3D {
         this.position.z = vec3.z;
     }
 
-    getWorldMatrix() {
+    getWorldMatrix() {      
+        this.rotationZ += 0.5;  
+        this.rotationX += 0.2;
+        this.rotationY += 0.1;
         let scaleMatrix = Matrix4.scale(this.scale);
         let rotateMatrix = Matrix4.rotateZ(this.rotationZ).concat(Matrix4.rotateX(this.rotationX)).concat(Matrix4.rotateY(this.rotationY));
         let translateMatrix = Matrix4.translate(this.position.x, this.position.y, this.position.z);

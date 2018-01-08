@@ -57,4 +57,8 @@
         return a.x * this.x + a.y * this.y + a.z * this.z;
     }
 
+    getX() {
+        return this.x;
+    }
+
 }

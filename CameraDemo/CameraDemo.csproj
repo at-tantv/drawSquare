@@ -29,10 +29,12 @@
   <ItemGroup>
     <TypeScriptCompile Include="app.ts" />
     <TypeScriptCompile Include="camera.ts" />
+    <TypeScriptCompile Include="file.ts" />
     <TypeScriptCompile Include="matrix.ts" />
     <TypeScriptCompile Include="model.ts" />
     <TypeScriptCompile Include="object.ts" />
     <TypeScriptCompile Include="shader.ts" />
+    <TypeScriptCompile Include="string.ts" />
     <TypeScriptCompile Include="texture.ts" />
     <TypeScriptCompile Include="vector3.ts" />
     <TypeScriptCompile Include="vector4.ts" />

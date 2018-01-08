@@ -15,7 +15,7 @@ var Camera = /** @class */ (function () {
     }
     Camera.prototype.init = function (canvas, shader) {
         var gl = canvas.getContext('experimental-webgl');
-        var projectMatrix = Matrix4.perspective(45, canvas.width / canvas.height, 0.1, 100);
+        var projectMatrix = Matrix4.perspective(45, canvas.width / canvas.height, 0.1, 1000);
         gl.uniformMatrix4fv(shader.PmatrixAddress, false, projectMatrix.buffer());
     };
     Camera.prototype.setScale = function (scale) {

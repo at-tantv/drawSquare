@@ -47,6 +47,9 @@ var Vector3 = /** @class */ (function () {
     Vector3.prototype.dot = function (a) {
         return a.x * this.x + a.y * this.y + a.z * this.z;
     };
+    Vector3.prototype.getX = function () {
+        return this.x;
+    };
     return Vector3;
 }());
 //# sourceMappingURL=vector3.js.map

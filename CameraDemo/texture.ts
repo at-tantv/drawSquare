@@ -1,20 +1,21 @@
 ﻿class Texture {
     canvas: any = null;
     texture: any = null;
-    url: string = "https://c1.staticflickr.com/5/4641/25459647538_b2521aa242.jpg";
-
-    constructor(canvas) {
+    url: string = "/data/vn_bank/NganHangNhaNuocVietNam.png";
+    gl: any = null;
+    constructor(canvas, gl) {
         this.canvas = canvas;
+        this.gl = gl;
     }
 
     init() {
-        var gl = this.canvas.getContext('experimental-webgl');
-        this.texture = this.loadTexture(gl, this.url);
+        this.texture = this.loadTexture(this.gl, this.url);
     }
 
     loadTexture(gl, url) {
         const texture = gl.createTexture();
         gl.bindTexture(gl.TEXTURE_2D, texture);
+        
         const level = 0;
         const internalFormat = gl.RGBA;
         const width = 1;
@@ -30,6 +31,7 @@
         const image = new Image();
         image.crossOrigin = "";
         image.onload = () => {
+            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
             gl.bindTexture(gl.TEXTURE_2D, texture);
             gl.texImage2D(gl.TEXTURE_2D, level, internalFormat,
                 srcFormat, srcType, image);

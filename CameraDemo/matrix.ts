@@ -1,4 +1,4 @@
-﻿class Matrix4 {    
+﻿ class Matrix4 {    
 
     constructor(public data: number[][] = [
         [1.0, 0.0, 0.0, 0.0],
