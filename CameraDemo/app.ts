@@ -1,7 +1,7 @@
 ﻿class App {
     
     canvas: any = null;
-    gl: any = null;
+    glMain: any = null;
     camera: Camera = null;
     viewMatrix: Matrix4 = null;
   
@@ -25,29 +25,24 @@
     }
     init() {
         this.prepareDraw();
-        var fileHelper = FileHelper.init("/data/vn_bank/NganHangNhaNuocVietNam.txt", () => {
-            var model = new Model(this.canvas, this.gl);
-            model.init();
-
-            var texture = new Texture(this.canvas, this.gl);
-            texture.init();
-            var shader = new Shader(model, this.gl);
-            shader.init();
-
-            this.camera = new Camera();
-            this.camera.init(this.canvas, shader);
-
-            var object3D1 = new Object3D(model, shader, texture, this.canvas, this.gl);
-            object3D1.init();
-            object3D1.setTranslate(new Vector3(0, 0, -106));
-            object3D1.setScale(1 / 3);
-            this.object3Ds.push(object3D1);
-            this.render(0);
-        });
+        var model = new Model(this.canvas, this.glMain);
+        model.init();
+        var texture = new Texture(this.canvas, this.glMain);
+        texture.init();
+        var shader = new Shader(model, this.glMain);
+        shader.init();
+        this.camera = new Camera();
+        this.camera.init(this.canvas, shader);
+        var object3D1 = new Object3D(model, shader, texture, this.canvas, this.glMain);
+        object3D1.init();
+        object3D1.setTranslate(new Vector3(0, 0, -12));
+        object3D1.setScale(1);
+        this.object3Ds.push(object3D1);
+        this.render(0);
     }
   
     render = (time) => {
-        this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+        this.glMain.clear(this.glMain.COLOR_BUFFER_BIT | this.glMain.DEPTH_BUFFER_BIT);
         var dt = time - this.time_old;
         for (let i = 0; i < this.object3Ds.length; i++) {
             this.object3Ds[i].render(this.camera);
@@ -63,14 +58,14 @@
     prepareDraw() {
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
-        this.gl = this.canvas.getContext('experimental-webgl');
+        this.glMain = this.canvas.getContext('experimental-webgl');
         window.addEventListener('scroll', this.noscroll);
-        this.gl.enable(this.gl.DEPTH_TEST);
-        this.gl.enable(this.gl.CULL_FACE)
-        this.gl.depthFunc(this.gl.LEQUAL);
-        this.gl.clearColor(0.5, 0.5, 0.5, 0.9);
-        this.gl.clearDepth(1.0);
-        this.gl.viewport(0.0, 0.0, this.canvas.width, this.canvas.height);
+        this.glMain.enable(this.glMain.DEPTH_TEST);
+        //this.glMain.enable(this.glMain.CULL_FACE)
+        this.glMain.depthFunc(this.glMain.LEQUAL);
+        this.glMain.clearColor(0.5, 0.5, 0.5, 0.9);
+        this.glMain.clearDepth(1.0);
+        this.glMain.viewport(0.0, 0.0, this.canvas.width, this.canvas.height);
     }
 
 }

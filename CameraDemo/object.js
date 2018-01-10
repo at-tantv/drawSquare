@@ -5,7 +5,7 @@ var Object3D = /** @class */ (function () {
         this.texture = null;
         this.position = null;
         this.scale = 1;
-        this.rotationX = 45;
+        this.rotationX = 0;
         this.rotationY = 0;
         this.rotationZ = 0;
         this.gl = null;
@@ -28,7 +28,7 @@ var Object3D = /** @class */ (function () {
         //Ve Hinh
         this.gl.bindTexture(this.gl.TEXTURE_2D, this.texture.texture);
         this.gl.activeTexture(this.gl.TEXTURE0);
-        this.gl.drawArrays(this.gl.TRIANGLES, 0, this.model.vertices.length / 3);
+        this.gl.drawElements(this.gl.TRIANGLES, this.model.indices.length, this.gl.UNSIGNED_SHORT, 0);
     };
     Object3D.prototype.setScale = function (scale) {
         this.scale = scale;
@@ -48,9 +48,7 @@ var Object3D = /** @class */ (function () {
         this.position.z = vec3.z;
     };
     Object3D.prototype.getWorldMatrix = function () {
-        this.rotationZ += 0.5;
-        this.rotationX += 0.2;
-        this.rotationY += 0.1;
+        this.rotationY += 1;
         var scaleMatrix = Matrix4.scale(this.scale);
         var rotateMatrix = Matrix4.rotateZ(this.rotationZ).concat(Matrix4.rotateX(this.rotationX)).concat(Matrix4.rotateY(this.rotationY));
         var translateMatrix = Matrix4.translate(this.position.x, this.position.y, this.position.z);

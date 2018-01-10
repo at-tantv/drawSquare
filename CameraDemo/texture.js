@@ -2,7 +2,7 @@ var Texture = /** @class */ (function () {
     function Texture(canvas, gl) {
         this.canvas = null;
         this.texture = null;
-        this.url = "/data/vn_bank/NganHangNhaNuocVietNam.png";
+        this.url = "/data/vn_bank/cube-material.jpg";
         this.gl = null;
         this.canvas = canvas;
         this.gl = gl;

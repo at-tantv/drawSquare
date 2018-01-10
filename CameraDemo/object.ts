@@ -6,7 +6,7 @@ class Object3D {
 
     position: Vector3 = null;
     scale = 1;
-    rotationX = 45;
+    rotationX = 0;
     rotationY = 0;
     rotationZ = 0;
     gl: any = null;
@@ -34,7 +34,7 @@ class Object3D {
         //Ve Hinh
         this.gl.bindTexture(this.gl.TEXTURE_2D, this.texture.texture);
         this.gl.activeTexture(this.gl.TEXTURE0);
-        this.gl.drawArrays(this.gl.TRIANGLES, 0, this.model.vertices.length / 3);
+        this.gl.drawElements(this.gl.TRIANGLES, this.model.indices.length, this.gl.UNSIGNED_SHORT, 0);
     }
 
     setScale(scale) {
@@ -60,9 +60,7 @@ class Object3D {
     }
 
     getWorldMatrix() {      
-        this.rotationZ += 0.5;  
-        this.rotationX += 0.2;
-        this.rotationY += 0.1;
+        this.rotationY += 1;
         let scaleMatrix = Matrix4.scale(this.scale);
         let rotateMatrix = Matrix4.rotateZ(this.rotationZ).concat(Matrix4.rotateX(this.rotationX)).concat(Matrix4.rotateY(this.rotationY));
         let translateMatrix = Matrix4.translate(this.position.x, this.position.y, this.position.z);

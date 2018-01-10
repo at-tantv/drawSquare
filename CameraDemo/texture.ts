@@ -1,7 +1,7 @@
 ﻿class Texture {
     canvas: any = null;
     texture: any = null;
-    url: string = "/data/vn_bank/NganHangNhaNuocVietNam.png";
+    url: string = "/data/vn_bank/cube-material.jpg";
     gl: any = null;
     constructor(canvas, gl) {
         this.canvas = canvas;
@@ -35,7 +35,6 @@
             gl.bindTexture(gl.TEXTURE_2D, texture);
             gl.texImage2D(gl.TEXTURE_2D, level, internalFormat,
                 srcFormat, srcType, image);
-
             if (this.isPowerOf2(image.width) && this.isPowerOf2(image.height)) {
                 gl.generateMipmap(gl.TEXTURE_2D);
             } else {

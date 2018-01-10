@@ -16,15 +16,24 @@ var Shader = /** @class */ (function () {
             'uniform mat4 Pmatrix;' +
             'uniform mat4 Vmatrix;' +
             'uniform mat4 Mmatrix;' +
+            'varying highp vec3 vLighting;' +
             'void main(void) { ' +
             '  gl_Position = Pmatrix*Vmatrix*Mmatrix*vec4(position, 1);' +
             '  fragTexCoord = vertTexCoord;' +
+            '  highp vec3 ambientLight = vec3(0.3, 0.3, 0.3);' +
+            '  highp vec3 directionalLightColor = vec3(1, 1, 1);' +
+            '  highp vec3 directionalVector = normalize(vec3(0.85, 0.8, 0.75));' +
+            '  highp vec4 transformedNormal = Mmatrix * vec4(position, 1);' +
+            '  highp float directional = max(dot(transformedNormal.xyz, directionalVector), 0.0);' +
+            '  vLighting = ambientLight + (directionalLightColor * directional);' +
             '} ';
         var fragCode = 'precision mediump float;' +
             'varying vec2 fragTexCoord;' +
             'uniform sampler2D sampler;' +
+            'varying highp vec3 vLighting;' +
             'void main(void) {' +
-            ' gl_FragColor = texture2D(sampler, fragTexCoord);' +
+            ' highp vec4 texelColor = texture2D(sampler, fragTexCoord);' +
+            ' gl_FragColor = vec4(texelColor.rgb * vLighting, texelColor.a);' +
             ' } ';
         var vertShader = this.gl.createShader(this.gl.VERTEX_SHADER);
         this.gl.shaderSource(vertShader, vertCode);
@@ -36,6 +45,7 @@ var Shader = /** @class */ (function () {
         this.gl.attachShader(this.programShader, vertShader);
         this.gl.attachShader(this.programShader, fragShader);
         this.gl.linkProgram(this.programShader);
+        this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, this.model.indexBuffer);
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.model.vertexBuffer);
         var coord = this.gl.getAttribLocation(this.programShader, "position");
         this.gl.vertexAttribPointer(coord, 3, this.gl.FLOAT, false, 0, 0);
