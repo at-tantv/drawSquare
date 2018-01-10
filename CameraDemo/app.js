@@ -38,7 +38,7 @@ var App = /** @class */ (function () {
         this.camera.init(this.canvas, shader);
         var object3D1 = new Object3D(model, shader, texture, this.canvas, this.glMain);
         object3D1.init();
-        object3D1.setTranslate(new Vector3(0, 0, -12));
+        object3D1.setTranslate(new Vector3(0, 0, -7));
         object3D1.setScale(1);
         this.object3Ds.push(object3D1);
         this.render(0);
@@ -61,7 +61,6 @@ var App = /** @class */ (function () {
     return App;
 }());
 window.onload = function () {
-    var xyz = 0.5;
     var canvas = document.getElementById('my-canvas');
     var app = new App(canvas);
     app.init();
@@ -79,6 +78,25 @@ window.onload = function () {
             case "ArrowRight":
                 app.camera.translateX(1);
                 break;
+            default:
+                switch (event.which) {
+                    case 98:
+                        console.log("case2" + event.which);
+                        app.camera.lightPosition.z -= 1;
+                        break;
+                    case 100:
+                        console.log("case4" + event.which);
+                        app.camera.lightPosition.x -= 1;
+                        break;
+                    case 102:
+                        console.log("case6" + event.which);
+                        app.camera.lightPosition.x += 1;
+                        break;
+                    case 104:
+                        console.log("case8" + event.which);
+                        app.camera.lightPosition.z += 1;
+                        break;
+                }
         }
     });
 };

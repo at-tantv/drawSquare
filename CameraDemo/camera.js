@@ -12,6 +12,7 @@ var Camera = /** @class */ (function () {
         this.rotationX = 0;
         this.rotationY = 0;
         this.rotationZ = 0;
+        this.lightPosition = new Vector3(0, 0, 0);
     }
     Camera.prototype.init = function (canvas, shader) {
         var gl = canvas.getContext('experimental-webgl');

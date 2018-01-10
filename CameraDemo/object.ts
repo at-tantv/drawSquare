@@ -26,6 +26,8 @@ class Object3D {
 
 
     render(camera) {
+        console.log("xyz= " + JSON.stringify(camera.lightPosition));
+        this.gl.uniform3f(this.shader.LightPositionAddress, camera.lightPosition.x, camera.lightPosition.y, camera.lightPosition.z);
         //Tinh World Matrix
         this.gl.uniformMatrix4fv(this.shader.MmatrixAddress, false, this.getWorldMatrix().buffer());
         //View Matrix Camera
@@ -59,8 +61,10 @@ class Object3D {
         this.position.z = vec3.z;
     }
 
-    getWorldMatrix() {      
-        this.rotationY += 1;
+    getWorldMatrix() {     
+        this.rotationZ += 0.3;
+        this.rotationX += 0.2;
+        this.rotationY += 0.1;
         let scaleMatrix = Matrix4.scale(this.scale);
         let rotateMatrix = Matrix4.rotateZ(this.rotationZ).concat(Matrix4.rotateX(this.rotationX)).concat(Matrix4.rotateY(this.rotationY));
         let translateMatrix = Matrix4.translate(this.position.x, this.position.y, this.position.z);

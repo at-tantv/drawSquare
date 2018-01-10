@@ -4,6 +4,8 @@
     rotationX: number = 0;
     rotationY: number = 0;
     rotationZ: number = 0;
+    lightPosition: Vector3 = new Vector3(0, 0, 0);
+
     constructor(public data: number[][] = [
             [1.0, 0.0, 0.0, 0.0],
             [0.0, 1.0, 0.0, 0.0],
