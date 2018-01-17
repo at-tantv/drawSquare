@@ -4,6 +4,7 @@ var Model = /** @class */ (function () {
         this.indexBuffer = null;
         this.textcoordBuffer = null;
         this.normalBuffer = null;
+        this.frameBuffer = null;
         this.canvas = null;
         this.gl = null;
         this.vertices = [
@@ -90,7 +91,6 @@ var Model = /** @class */ (function () {
         this.gl = gl;
     }
     Model.prototype.init = function () {
-        //  this.initVerticesAndTextCoords();
         this.vertexBuffer = this.gl.createBuffer();
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.vertexBuffer);
         this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(this.vertices), this.gl.STATIC_DRAW);

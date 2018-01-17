@@ -4,8 +4,10 @@
     indexBuffer: any = null;
     textcoordBuffer: any = null;
     normalBuffer: any = null;
+    frameBuffer: any = null;
     canvas: any = null;
     gl: any = null;
+
     constructor(canvas, gl) {
         this.canvas = canvas;
         this.gl = gl;
@@ -106,12 +108,10 @@
 
 
     init() {
-      //  this.initVerticesAndTextCoords();
         this.vertexBuffer = this.gl.createBuffer();
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.vertexBuffer);
         this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(this.vertices), this.gl.STATIC_DRAW);
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, null);
-
 
         this.normalBuffer = this.gl.createBuffer();
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.normalBuffer);
@@ -127,6 +127,7 @@
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.textcoordBuffer);
         this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(this.texCoords), this.gl.STATIC_DRAW);
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, null);
+
     }
 
     initVerticesAndTextCoords() {

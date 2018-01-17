@@ -13,11 +13,11 @@ var Camera = /** @class */ (function () {
         this.rotationY = 0;
         this.rotationZ = 0;
         this.lightPosition = new Vector3(0, 0, 0);
+        this.projectMatrix = null;
     }
     Camera.prototype.init = function (canvas, shader) {
         var gl = canvas.getContext('experimental-webgl');
-        var projectMatrix = Matrix4.perspective(45, canvas.width / canvas.height, 0.1, 1000);
-        gl.uniformMatrix4fv(shader.PmatrixAddress, false, projectMatrix.buffer());
+        this.projectMatrix = Matrix4.perspective(45, canvas.width / canvas.height, 0.1, 1000);
     };
     Camera.prototype.setScale = function (scale) {
         this.scale = scale;

@@ -30,6 +30,7 @@
     <TypeScriptCompile Include="app.ts" />
     <TypeScriptCompile Include="camera.ts" />
     <TypeScriptCompile Include="file.ts" />
+    <TypeScriptCompile Include="framebuffer.ts" />
     <TypeScriptCompile Include="matrix.ts" />
     <TypeScriptCompile Include="model.ts" />
     <TypeScriptCompile Include="object.ts" />

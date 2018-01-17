@@ -5,6 +5,7 @@
     rotationY: number = 0;
     rotationZ: number = 0;
     lightPosition: Vector3 = new Vector3(0, 0, 0);
+    projectMatrix: Matrix4 = null;
 
     constructor(public data: number[][] = [
             [1.0, 0.0, 0.0, 0.0],
@@ -16,8 +17,7 @@
 
     init(canvas, shader) {
         var gl = canvas.getContext('experimental-webgl');
-        var projectMatrix = Matrix4.perspective(45, canvas.width / canvas.height, 0.1, 1000);
-        gl.uniformMatrix4fv(shader.PmatrixAddress, false, projectMatrix.buffer());
+        this.projectMatrix = Matrix4.perspective(45, canvas.width / canvas.height, 0.1, 1000);        
     }
 
     setScale(scale) {

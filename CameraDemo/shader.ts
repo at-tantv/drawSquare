@@ -1,17 +1,21 @@
 ﻿class Shader {
-    programShader = null;
-    model: Model = null;
-    PmatrixAddress: any = null;
-    VmatrixAddress: any = null;
-    MmatrixAddress: any = null;
-    LightPositionAddress: any = null;
+    programShader = null;    
+    pLocation: any = null;
+    vLocaion: any = null;
+    mlocation: any = null;
+    lightLocation: any = null;
     gl: any = null;
-    constructor(model, gl){
-        this.model = model;
+
+    coordLocation: any = null;
+    normalLocation: any = null;
+    texCoordAttribLocation: any = null;
+
+    constructor(model, gl){        
         this.gl = gl;
     }
 
     init() {
+
         let vertCode = 'attribute vec3 position;' +
             'attribute vec2 vertTexCoord;' +
             'attribute vec3 normal;' +
@@ -69,27 +73,58 @@
         this.gl.attachShader(this.programShader, vertShader); 
         this.gl.attachShader(this.programShader, fragShader);
         this.gl.linkProgram(this.programShader);
-        this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, this.model.indexBuffer);
 
-        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.model.vertexBuffer);
-        var coord = this.gl.getAttribLocation(this.programShader, "position");
-        this.gl.vertexAttribPointer(coord, 3, this.gl.FLOAT, false, 0, 0);
-        this.gl.enableVertexAttribArray(coord);
+        this.coordLocation = this.gl.getAttribLocation(this.programShader, "position");
+        this.normalLocation = this.gl.getAttribLocation(this.programShader, "normal");
+        this.texCoordAttribLocation = this.gl.getAttribLocation(this.programShader, 'vertTexCoord');
 
-        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.model.normalBuffer);
-        var normal = this.gl.getAttribLocation(this.programShader, "normal");
-        this.gl.vertexAttribPointer(normal, 3, this.gl.FLOAT, false, 0, 0);
-        this.gl.enableVertexAttribArray(normal);
+        this.pLocation = this.gl.getUniformLocation(this.programShader, "Pmatrix");
+        this.vLocaion = this.gl.getUniformLocation(this.programShader, "Vmatrix");
+        this.mlocation = this.gl.getUniformLocation(this.programShader, "Mmatrix");
+        this.lightLocation = this.gl.getUniformLocation(this.programShader, "lightPosition");        
+    }
 
-        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.model.textcoordBuffer);
-        var texCoordAttribLocation = this.gl.getAttribLocation(this.programShader, 'vertTexCoord');
-        this.gl.vertexAttribPointer(texCoordAttribLocation, 3, this.gl.FLOAT, false, 0, 0);
-        this.gl.enableVertexAttribArray(texCoordAttribLocation);
+    initFrameBuffer() {
 
-        this.PmatrixAddress = this.gl.getUniformLocation(this.programShader, "Pmatrix");
-        this.VmatrixAddress = this.gl.getUniformLocation(this.programShader, "Vmatrix");
-        this.MmatrixAddress = this.gl.getUniformLocation(this.programShader, "Mmatrix");
-        this.LightPositionAddress = this.gl.getUniformLocation(this.programShader, "lightPosition");
-        this.gl.useProgram(this.programShader);
+        let vertCode = 'attribute vec3 position;' +
+            'attribute vec2 vertTexCoord;' +
+            'varying vec3 vPosition;' +
+            'varying vec2 fragTexCoord;' +
+            'uniform mat4 Pmatrix;' +
+            'uniform mat4 Vmatrix;' +
+            'uniform mat4 Mmatrix;' +
+            'void main(void) { ' +
+            '  vPosition = position;' +
+            '  fragTexCoord = vertTexCoord;' +
+            '  gl_Position = vec4(position, 1);' +
+            '} ';
+
+        let fragCode = 'precision mediump float;' +
+            'varying vec2 fragTexCoord;' +
+            'varying vec3 vPosition;' +
+            'uniform sampler2D sampler;' +
+            'void main(void) {' +
+            'gl_FragColor = texture2D(sampler, fragTexCoord);' +
+            ' } ';
+
+
+        let vertShader = this.gl.createShader(this.gl.VERTEX_SHADER);
+        this.gl.shaderSource(vertShader, vertCode);
+        this.gl.compileShader(vertShader);
+        let fragShader = this.gl.createShader(this.gl.FRAGMENT_SHADER);
+        this.gl.shaderSource(fragShader, fragCode);
+        this.gl.compileShader(fragShader);
+
+        this.programShader = this.gl.createProgram();
+        this.gl.attachShader(this.programShader, vertShader);
+        this.gl.attachShader(this.programShader, fragShader);
+        this.gl.linkProgram(this.programShader);
+
+        this.coordLocation = this.gl.getAttribLocation(this.programShader, "position");
+        this.texCoordAttribLocation = this.gl.getAttribLocation(this.programShader, 'vertTexCoord');
+
+        this.pLocation = this.gl.getUniformLocation(this.programShader, "Pmatrix");
+        this.vLocaion = this.gl.getUniformLocation(this.programShader, "Vmatrix");
+        this.mlocation = this.gl.getUniformLocation(this.programShader, "Mmatrix");
     }
 }
