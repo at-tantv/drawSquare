@@ -22,11 +22,14 @@ var Shader = /** @class */ (function () {
             'uniform mat4 Vmatrix;' +
             'uniform mat4 Mmatrix;' +
             'uniform vec3 lightPosition;' +
+            'uniform mat4 u_Shadowmap_transform; ' +
             'varying vec3 vLightPosition;' +
+            'varying vec4 v_Vertex_relative_to_light;' +
             'void main(void) { ' +
             '  vPosition = (Mmatrix * vec4(position, 1.0)).xyz;' +
             '  vNormal = (Mmatrix * vec4(normal, 0.0)).xyz;' +
             '  fragTexCoord = vertTexCoord;' +
+            '   v_Vertex_relative_to_light = u_Shadowmap_transform * vec4(position, 1.0);' +
             '  vLightPosition = lightPosition;' +
             '  gl_Position = Pmatrix*Vmatrix*Mmatrix*vec4(position, 1);' +
             '} ';
